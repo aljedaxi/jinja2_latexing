@@ -27,7 +27,7 @@ def fill(template_file, meta, env=ENV):
         **meta,
     )
 
-def write_out(string, filename="default", engine=("latexmk", "--pdf")):
+def write_out(string, filename="default", engine=("latexmk", "--pdf"), latex=True):
     if "tex" not in filename:
         filename += ".tex"
 
@@ -35,10 +35,11 @@ def write_out(string, filename="default", engine=("latexmk", "--pdf")):
         string
     )
 
-    try:
-        call((*engine, filename))
-    except:
-        call((engine, filename))
+    if latex:
+        try:
+            call((*engine, filename))
+        except:
+            call((engine, filename))
 
 if __name__ == "__main__":
     write_out("dab", engine="pdflatex")
