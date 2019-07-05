@@ -1,0 +1,21 @@
+\documentclass{article}
+\title{
+	\VAR{title}
+}
+\author{
+	\VAR{author}
+}
+\usepackage{libertinus}
+\usepackage[T1]{fontenc}
+\renewcommand*\familydefault{\sfdefault}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\BLOCK{for agendum in agenda}
+	\section{
+		\VAR{agendum['title']}
+	}
+	\VAR{agendum['body']}
+\BLOCK{endfor}
+\end{document}
