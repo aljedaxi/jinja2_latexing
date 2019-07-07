@@ -21,7 +21,10 @@ def fill(template_file, meta, env=ENV):
         fills a given template with data.
     """
 
-    template = env.get_template(template_file)
+    try:
+        template = env.get_template(template_file)
+    except:
+        template = env.get_template(f"{template_file}.tex")
 
     return template.render(
         **meta,
