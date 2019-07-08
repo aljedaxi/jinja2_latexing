@@ -13,7 +13,7 @@ ENV = Environment(
     trim_blocks             = True,
     lstrip_blocks           = True,
     autoescape              = False,
-    loader                  = FileSystemLoader("./"),
+    loader                  = FileSystemLoader("./jinja2_latexing/"),
 )
 
 def fill(template_file, meta, env=ENV):
