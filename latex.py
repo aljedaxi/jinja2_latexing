@@ -19,6 +19,10 @@ ENV = Environment(
 #datetime.datetime.now().isoformat()#.split('T')[0]
 
 def fill(template_file, meta, env=ENV):
+    """
+        fills a given template with data.
+    """
+
     template = env.get_template(template_file)
     return template.render(**meta)
 

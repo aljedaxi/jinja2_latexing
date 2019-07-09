@@ -1,0 +1,25 @@
+\daxiincontent{\VAR{title}}{\VAR{author}}
+
+\articletitle{\VAR{title}}
+\BLOCK{if subtitle}
+\articlesubtitle{\VAR{subtitle}}
+\BLOCK{endif}
+
+\articleauthor{\VAR{author}}
+\begin{poem}
+\BLOCK{for stanza in stanzas}
+	\begin{stanza}
+	\BLOCK{for line in stanza}
+		\BLOCK{if loop.last}
+			\VAR{line}
+		\BLOCK{else}
+			\VAR{line}\verseline
+		\BLOCK{endif}
+	\BLOCK{endfor}
+	\end{stanza}
+\BLOCK{endfor}
+\end{poem}
+\BLOCK{if bio}
+\articlebio{\VAR{bio}}
+\BLOCK{endif}
+\articlerights{\VAR{rights}}
