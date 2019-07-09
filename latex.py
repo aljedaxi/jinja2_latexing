@@ -1,3 +1,4 @@
+import datetime
 from jinja2     import Template, Environment, FileSystemLoader
 from subprocess import call
 
@@ -15,31 +16,29 @@ ENV = Environment(
     autoescape              = False,
     loader                  = FileSystemLoader("./"),
 )
+#datetime.datetime.now().isoformat()#.split('T')[0]
 
 def fill(template_file, meta, env=ENV):
-    """
-        fills a given template with data.
-    """
-
     template = env.get_template(template_file)
+    return template.render(**meta)
 
-    return template.render(
-        **meta,
-    )
+def compile_pdf(filename, engine=["latexmk", "--pdf"], externalize=""):
+    if externalize:
+        call(("mkdir", externalize))
+        engine.append(f"-output-directory={externalize}")
+    try:
+        call((*engine, filename))
+    except:
+        call((engine, filename))
 
-def write_out(string, filename="default", engine=("latexmk", "--pdf"), latex=True):
+def write_out(string, filename="default.tex", backup="", latex=True, engine=["latexmk", "--pdf"], externalize=""):
     if "tex" not in filename:
         filename += ".tex"
 
-    open(filename, "w").write(
-        string
-    )
+    if backup:
+        open(f"{backup}/{filename}", "w").write(string)
+
+    open(filename, "w").write(string)
 
     if latex:
-        try:
-            call((*engine, filename))
-        except:
-            call((engine, filename))
-
-if __name__ == "__main__":
-    write_out("dab", engine="pdflatex")
+        compile_pdf(filename, engine=engine, externalize=externalize)
