@@ -1,0 +1,26 @@
+\documentclass[12pt]{article}
+\usepackage[headinclude=false,footinclude=false,paper=letter,DIV=15]{typearea}
+\usepackage{libertinus}
+\usepackage[T1]{fontenc}
+\renewcommand*\familydefault{\sfdefault}
+\title{\VAR{title}}
+\author{}
+\date{}
+\newcommand{\third}{\VAR{ratio}}
+\begin{document}
+\maketitle
+\noindent
+\BLOCK{for x in fields}
+	\makebox[\third\textwidth][c]{\VAR{x}}
+\BLOCK{endfor}
+\BLOCK{for x in lines}
+    \BLOCK{for x in spaces}
+    \\
+    ~
+    \\
+    \BLOCK{endfor}
+    \BLOCK{for y in fields}
+        \makebox[\third\textwidth][c]{\hrulefill}
+    \BLOCK{endfor}
+\BLOCK{endfor}
+\end{document}
