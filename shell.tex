@@ -2,7 +2,6 @@
 \usepackage{coelacanth}
 \usepackage[T1]{fontenc}
 
-
 %Jinja2 variables {
 	\title{\VAR{title}}
 	\author{\VAR{author}}
@@ -21,9 +20,14 @@
 	\BLOCK{endblock}
 %*/
 
-\BLOCK{commands}
+\BLOCK{block commands}
+\BLOCK{endblock}
+\VAR{commands}
 
 
 \begin{document}
+\maketitle
 \BLOCK{block document}
+\BLOCK{endblock}
+\VAR{document}
 \end{document}

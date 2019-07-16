@@ -1,6 +1,7 @@
 import datetime
 from jinja2     import Template, Environment, FileSystemLoader
 from subprocess import call
+from .yml_to_tex import yml_to_tex as yml
 
 ENV = Environment(
     block_start_string      = '\BLOCK{',
@@ -17,6 +18,10 @@ ENV = Environment(
     loader                  = FileSystemLoader("./jinja2_latexing"),
 )
 #datetime.datetime.now().isoformat()#.split('T')[0]
+
+def y2t(yml_string):
+    document = yml.yml_to_tex(yml_string)
+    return {"document": document}
 
 def fill(template_file, meta, env=ENV):
     """
@@ -46,3 +51,6 @@ def write_out(string, filename="default.tex", backup="", latex=True, engine=["la
 
     if latex:
         compile_pdf(filename, engine=engine, externalize=externalize)
+
+if __name__ == "__main__":
+    print("meme")
