@@ -3,6 +3,12 @@ from jinja2     import Template, Environment, FileSystemLoader
 from subprocess import call
 from .yml_to_tex import yml_to_tex as yml
 
+DEFAULT_TITLE = "a daxiin document"
+DEFAULT_AUTHOR = "daxi"
+                   #TODO: date or something
+DEFAULT_FILENAME = "document.tex"
+DEFAULT_EXTERNAL = "junk_drawer"
+
 ENV = Environment(
     block_start_string      = '\BLOCK{',
     block_end_string        = '}',
@@ -20,6 +26,10 @@ ENV = Environment(
 #datetime.datetime.now().isoformat()#.split('T')[0]
 
 def y2t(yml_string):
+    """
+        returns a string wrapped in a dictionary.
+        the key is "document", same as the one needed by "shell.tex".
+    """
     document = yml.yml_to_tex(yml_string)
     return {"document": document}
 
@@ -52,5 +62,35 @@ def write_out(string, filename="default.tex", backup="", latex=True, engine=["la
     if latex:
         compile_pdf(filename, engine=engine, externalize=externalize)
 
+def do_everything_for_me(
+    string, 
+    title=DEFAULT_TITLE,
+    author=DEFAULT_AUTHOR,
+    filename=DEFAULT_FILENAME,
+    TEMPLATE="shell.tex",
+    backup="", 
+    latex=True, 
+    engine=["latexmk", "--pdf"], 
+    externalize=DEFAULT_EXTERNAL,
+):
+    meta = y2t(string)
+    meta['title'] = title
+    meta['author'] = author
+
+    write_out(
+        fill(
+            TEMPLATE,
+            meta,
+        ),
+        filename=filename,
+        externalize=externalize,
+    )
+
 if __name__ == "__main__":
-    print("meme")
+    infile = "test.yml"
+    instring = open(infile).read()
+    #TODO: test do_everything_for_me
+    #TODO: get command line arguments for this
+    do_everything_for_me(
+        instring
+    )
