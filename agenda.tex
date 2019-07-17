@@ -12,6 +12,11 @@
 \usepackage[T1]{fontenc}
 \renewcommand*\familydefault{\sfdefault}
 
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\renewcommand{\labelenumii}{\labelenumi\arabic{enumii}.}
+\renewcommand{\labelenumiii}{\labelenumii\arabic{enumiii}.}
+\renewcommand{\labelenumiv}{\labelenumiii\arabic{enumiv}.}
+
 \begin{document}
 \maketitle
 \tableofcontents
