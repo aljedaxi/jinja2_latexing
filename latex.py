@@ -3,6 +3,7 @@
 #TODO create mark down interface
 
 import datetime
+import os
 from jinja2     import Template, Environment, FileSystemLoader
 from subprocess import call
 #from .yml_to_tex import yml_to_tex as yml
@@ -51,12 +52,18 @@ def compile_pdf(filename, engine=["latexmk", "--pdf"], externalize=""):
     if externalize:
         call(("mkdir", externalize))
         engine.append(f"-output-directory={externalize}")
+
     try:
         call((*engine, filename))
     except:
         call((engine, filename))
 
-def write_out(string, filename="default.tex", backup="", latex=True, engine=["latexmk", "--pdf"], externalize=""):
+    if externalize:
+        #bring the pdf into the current directory
+        extensionless = os.path.splitext(filename)[0]
+        call(("mv", f"{externalize}/{extensionless}.pdf", "./"))
+
+def write_out(string, filename=DEFAULT_FILENAME, backup="", latex=True, engine=["latexmk", "--pdf"], externalize=""):
     if "tex" not in filename:
         filename += ".tex"
 
@@ -84,10 +91,7 @@ def do_everything_for_me(
     meta['author'] = author
 
     write_out(
-        fill(
-            TEMPLATE,
-            meta,
-        ),
+        fill(TEMPLATE, meta,),
         backup=backup,
         latex=latex,
         engine=engine,
