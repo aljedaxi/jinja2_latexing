@@ -27,7 +27,7 @@ ENV = Environment(
     trim_blocks             = True,
     lstrip_blocks           = True,
     autoescape              = False,
-    loader                  = FileSystemLoader("./jinja2_latexing"),
+    loader                  = FileSystemLoader(os.path.dirname(os.path.realpath(__file__)))
     #loader                  = FileSystemLoader("./"),
 )
 #datetime.datetime.now().isoformat()#.split('T')[0]
@@ -45,6 +45,7 @@ def fill(template_file, meta, env=ENV):
         fills a given template with data.
     """
 
+    print(os.getcwd())
     template = env.get_template(template_file)
     return template.render(**meta)
 
