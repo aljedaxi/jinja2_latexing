@@ -19,6 +19,27 @@
 
 \begin{document}
 \maketitle
+\BLOCK{if invitees or attendees}
+	\begin{description}
+		\BLOCK{if invitees}
+		\item[invitees]
+			\BLOCK{for invitee in invitees}
+				\VAR{invitee}
+			\BLOCK{endfor}
+		\BLOCK{endif}
+		\BLOCK{if attendees}
+			\item[attendees]
+			\BLOCK{for invitee in attendees}
+				\VAR{invitee}
+			\BLOCK{endfor}
+			\item[absentees]
+			\BLOCK{for invitee in absentees}
+				\VAR{invitee}
+			\BLOCK{endfor}
+		\BLOCK{endif}
+	\end{description}
+\BLOCK{endif}
+
 \tableofcontents
 \BLOCK{for agendum in agenda}
 	\section{
@@ -27,12 +48,12 @@
 	\VAR{agendum['body']}
 \BLOCK{endfor}
 \BLOCK{if appendices}
-\appendix
-\BLOCK{for appendix in appendices}
-	\section{
-		\VAR{appendix['title']}
-	}
-	\VAR{appendix['body']}
-\BLOCK{endfor}
+	\appendix
+	\BLOCK{for appendix in appendices}
+		\section{
+			\VAR{appendix['title']}
+		}
+		\VAR{appendix['body']}
+	\BLOCK{endfor}
 \BLOCK{endif}
 \end{document}
