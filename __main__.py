@@ -44,7 +44,6 @@ if __name__ == "__main__":
                         metavar='a', 
                         required=False,
                         type=str, 
-                        default=DEFAULT_FILENAME,
                         help='author for document')
     parser.add_argument('--author', 
                         action='store',
@@ -60,18 +59,32 @@ if __name__ == "__main__":
                         type=str, 
                         default=DEFAULT_TITLE,
                         help='title for document')
+    parser.add_argument('--mode', 
+                        action='store',
+                        metavar='m', 
+                        required=False,
+                        type=str, 
+                        default='yaml',
+                        help='title for document')
 
     args = parser.parse_args()
 
     infile = args.infile
     instring = open(infile).read()
 
+    if args.filename:
+        filename = args.filename
+    else:
+        filename = args.infile.split('.')[0]
+
     status = do_everything_for_me(
         instring,
         title=args.title,
         author=args.author,
-        filename=args.filename,
+        filename=filename,
+        mode=args.mode,
     )
+        
 
     if not status:
         print("something must be wrong")

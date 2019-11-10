@@ -8,6 +8,7 @@ from jinja2     import Template, Environment, FileSystemLoader
 from subprocess import call
 #from .yml_to_tex import yml_to_tex as yml
 from yml_to_tex import yml_to_tex as yml
+from ruamel import yaml
 
 DEFAULT_TITLE = "a daxiin document"
 DEFAULT_AUTHOR = "daxi"
@@ -37,15 +38,20 @@ def y2t(yml_string):
         returns a string wrapped in a dictionary.
         the key is "document", same as the one needed by "shell.tex".
     """
-    document = yml.yml_to_tex(yml_string)
-    return {"document": document}
+    doc = {}
+    yam = yaml.safe_load(yml_string)
+    for key in ('title', 'author', 'document'):
+        if key in yam:
+            doc[key] = yam[key]
+            del yam[key]
+        
+    return doc
 
 def fill(template_file, meta, env=ENV):
     """
         fills a given template with data.
     """
 
-    print(os.getcwd())
     template = env.get_template(template_file)
     return template.render(**meta)
 
@@ -86,11 +92,17 @@ def do_everything_for_me(
     latex=True, 
     engine=["latexmk", "--pdf"], 
     externalize=DEFAULT_EXTERNAL,
+    mode='yaml',
 ):
-    meta = y2t(string)
-    meta['title'] = title
-    meta['author'] = author
+    meta = {}
+    if mode == 'yaml':
+        meta = y2t(string)
+    else:
+        meta['document'] = string
+        meta['title'] = title
+        meta['author'] = author
 
+    print(filename)
     write_out(
         fill(TEMPLATE, meta,),
         backup=backup,
@@ -113,12 +125,12 @@ if __name__ == "__main__":
     parser.add_argument('infile', metavar='I', type=str, #nargs='*',
                         help='a document which contains yml or LaTeX')
     parser.add_argument('--filename', 
-                        action='store',
-                        metavar='a', 
-                        required=False,
-                        type=str, 
-                        default=DEFAULT_FILENAME,
-                        help='author for document')
+        action='store',
+        metavar='a', 
+        required=False,
+        type=str, 
+        help='author for document',
+    )
     parser.add_argument('--author', 
                         action='store',
                         metavar='a', 
