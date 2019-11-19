@@ -33,20 +33,6 @@ ENV = Environment(
 )
 #datetime.datetime.now().isoformat()#.split('T')[0]
 
-def y2t(yml_string):
-    """
-        returns a string wrapped in a dictionary.
-        the key is "document", same as the one needed by "shell.tex".
-    """
-    doc = {}
-    yam = yaml.safe_load(yml_string)
-    for key in ('title', 'author', 'document'):
-        if key in yam:
-            doc[key] = yam[key]
-            del yam[key]
-        
-    return doc
-
 def fill(template_file, meta, env=ENV):
     """
         fills a given template with data.
@@ -96,13 +82,12 @@ def do_everything_for_me(
 ):
     meta = {}
     if mode == 'yaml':
-        meta = y2t(string)
+        meta = yaml.safe_load(string)
     else:
         meta['document'] = string
         meta['title'] = title
         meta['author'] = author
 
-    print(filename)
     write_out(
         fill(TEMPLATE, meta,),
         backup=backup,

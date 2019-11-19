@@ -5,6 +5,9 @@
 %Jinja2 variables {
 	\title{\VAR{title}}
 	\author{\VAR{author}}
+  \BLOCK{if date}
+  \date{\VAR{date}}
+  \BLOCK{endif}
 %}
 
 %/*
@@ -20,9 +23,9 @@
 	\BLOCK{endblock}
 %*/
 
-\BLOCK{block commands}
+\BLOCK{block preamble}
 \BLOCK{endblock}
-\VAR{commands}
+\VAR{preamble}
 
 
 \begin{document}
