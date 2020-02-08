@@ -64,7 +64,7 @@ if __name__ == "__main__":
                         metavar='m', 
                         required=False,
                         type=str, 
-                        default='yaml',
+                        default='unspecified',
                         help='title for document')
 
     args = parser.parse_args()
@@ -84,7 +84,6 @@ if __name__ == "__main__":
         filename=filename,
         mode=args.mode,
     )
-        
 
     if not status:
         print("something must be wrong")
